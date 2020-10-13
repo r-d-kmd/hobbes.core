@@ -16,9 +16,13 @@ steps:
   displayName: 'Install prereq'
 
 - script: |
+    dotnet tool update -g paket
+    dotnet tool update -g fake-cli
     fake build --target test
   displayName: 'test'
 
 - script: |
+    dotnet tool update -g paket
+    dotnet tool update -g fake-cli
     fake build --target package
-  displayName: 'test'
+  displayName: 'build'
