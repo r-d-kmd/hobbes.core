@@ -12,7 +12,7 @@ pool:
 steps:
 - script: |
     dotnet tool update -g paket
-    dotnet tool update fake-cli
+    dotnet tool update -g fake-cli
   displayName: 'Install prereq'
 
 - script: |
