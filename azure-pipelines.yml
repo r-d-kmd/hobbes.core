@@ -12,17 +12,13 @@ pool:
 steps:
 - script: |
     dotnet tool update -g paket
+    dotnet tool update -g fake-cli
   displayName: 'Install prereq'
 
-- task: FAKE5@1
-  inputs:
-    FakeVersion: '5.4.1'
-    FakeScript: 'build.fsx'
-    ScriptArguments: '--target test'
+- script: |
+    dotnet fake build --target test
+  displayName: 'test'
 
-
-- task: FAKE5@1
-  inputs:
-    FakeVersion: '5.4.1'
-    FakeScript: 'build.fsx'
-    ScriptArguments: '--target package'
+- script: |
+    dotnet fake build --target package
+  displayName: 'build'
