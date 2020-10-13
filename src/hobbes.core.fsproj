@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+    <RootNamespace>Hobbes</RootNamespace>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="yaml-parser"><HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath></Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="backend/AST.fs" />
+    <Compile Include="backend/Primitives.fs" />
+    <Compile Include="backend/Keywords.fs" />
+    <Compile Include="backend/Expressions.fs" />
+    <Compile Include="backend/StatementParser.fs" />
+    <Compile Include="backend/SourceBlockParser.fs" />
+    <Compile Include="backend/BlockParser.fs" />
+    <Compile Include="backend/Analyzer.fs" />
+    <Compile Include="frontend.fsharp/DataMatrix.fs" />
+    <Compile Include="frontend.fsharp/Compile.fs" />
+    <Compile Include="frontend.odata/Compile.fs" />
+    <Compile Include="DSL.fs" />
+  </ItemGroup>
+  <Import Project="../.fake/build.fsx/.paket/Paket.Restore.targets" />
+</Project>
