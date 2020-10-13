@@ -89,20 +89,20 @@ module Parser =
     [<Fact>]
     let parseCommentBlock() = 
         let originalComment = 
-            """# This is a markdown title
-this is then the body of the paragraph
+            """!# This is a markdown title
+this is then the body of the paragraph !#
 
 
 """
         let cmt = 
             originalComment 
             |> parseComment
-        Assert.Equal(originalComment.TrimEnd(),cmt)
+        Assert.Equal(originalComment.TrimEnd().Trim('!','#'),cmt)
     [<Fact>]
     let commentAndStatement() =
         let originalComment = 
-            """# This is a markdown title
-this is then the body of the paragraph
+            """!# This is a markdown title
+this is then the body of the paragraph !#
 
 
 
@@ -137,7 +137,7 @@ this is then the body of the paragraph
                 Assert.True false
                 ""
 
-        Assert.Equal(originalComment.TrimEnd(),cmt)
+        Assert.Equal(originalComment.TrimEnd().Trim('!','#'),cmt)
 
     
     [<Fact>]
@@ -180,8 +180,8 @@ project : true
 
 """
         let originalComment = 
-            """# This is a markdown title
-this is then the body of the paragraph
+            """!# This is a markdown title
+this is then the body of the paragraph !#
 
 
 
@@ -217,7 +217,7 @@ this is then the body of the paragraph
                 Assert.Equal(v,mapping.[k])
             )
             Assert.Equal("azure devops",providerName)
-            Assert.Equal(originalComment.TrimEnd(),cmt)
+            Assert.Equal(originalComment.TrimEnd().Trim('!','#'),cmt)
         | a ->
             printfn "Unexpected result %A" a 
             Assert.True false

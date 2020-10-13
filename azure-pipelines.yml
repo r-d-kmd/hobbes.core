@@ -16,7 +16,7 @@ steps:
   displayName: 'Install prereq'
 
 - script: |
-    dotnet test
+    fake build --target test
   displayName: 'test'
 
 - script: |

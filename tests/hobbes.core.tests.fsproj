@@ -16,5 +16,5 @@
     <Compile Include="FSharp.Frontend.fs" />
     <Compile Include="Parser.fs" />
   </ItemGroup>
-  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
+  <Import Project="../.fake/build.fsx/.paket/Paket.Restore.targets" />
 </Project>

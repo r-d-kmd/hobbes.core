@@ -182,6 +182,7 @@ module Frontend =
 
         compareColumns expected actual
 
+    (*
     [<Fact>]
     let onlyReturnSomeDateTime() =
 
@@ -196,7 +197,7 @@ module Frontend =
             |> getColumn "Sprint Start Date"
         let expected = seq{yield (AST.KeyType.Create (step - 1), date :> IComparable)}        
         
-        compareColumns expected actual
+        compareColumns expected actual *)
     
     [<Fact>]
     let sliceColumnsNonExisting() =

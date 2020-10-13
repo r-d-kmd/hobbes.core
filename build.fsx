@@ -25,6 +25,7 @@ type Targets =
    Build 
    | Package
    | Push
+   | Test
    | Generic of string
 
 let targetName = 
@@ -32,9 +33,8 @@ let targetName =
         Targets.Build -> "build"
         | Targets.Package -> "package"
         | Targets.Push -> "push"
+        | Targets.Test -> "test"
         | Targets.Generic s -> s
-
-
 
 open Fake.Core.TargetOperators
 let inline (==>) (lhs : Targets) (rhs : Targets) =
@@ -107,10 +107,18 @@ create Targets.Push (fun _ ->
     sprintf "push --url %s --api-key na %s" nugetFeedUrl nupkgFilePath
     |> run "paket" "./"
 )
+create Targets.Test (fun _ ->
+    DotNet.test id "tests/hobbes.core.tests.fsproj"
+)
 
 Targets.Build
     ==> Targets.Package
-    ==> Targets.Push
-    
+
 Targets.Build
+    ?=> Targets.Test
+
+Targets.Package
+    ?=>Targets.Push
+
+Targets.Package
 |> runOrDefaultWithArguments 
