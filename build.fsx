@@ -94,7 +94,7 @@ let paket workDir args =
 create Targets.Package (fun _ ->
     let packages = Directory.EnumerateFiles(srcPath, "*.nupkg")
     let dateTime = System.DateTime.UtcNow
-    let version = sprintf "1.%i.%i.%i-default" dateTime.Year dateTime.DayOfYear ((int) dateTime.TimeOfDay.TotalSeconds)
+    let version = sprintf "1.0.%i.%i.%i-default" dateTime.Year dateTime.DayOfYear ((int) dateTime.TimeOfDay.TotalSeconds)
     let packageVersion = Environment.environVarOrDefault "APPVEYOR_BUILD_VERSION" version
     File.deleteAll packages
     sprintf "pack --version %s ." packageVersion
@@ -105,9 +105,10 @@ create Targets.Push (fun _ ->
     let nupkgFilePath = 
         Directory.EnumerateFiles(srcPath, "*.nupkg")
         |> Seq.exactlyOne
-    sprintf "push --url %s --api-key na %s" nugetFeedUrl nupkgFilePath
+    sprintf "push --url %s --api-key $KEY %s" nugetFeedUrl nupkgFilePath
     |> paket "./"
 )
+
 create Targets.Test (fun _ ->
     DotNet.test id "tests/hobbes.core.tests.fsproj"
 )
