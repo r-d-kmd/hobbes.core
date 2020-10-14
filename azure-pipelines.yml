@@ -15,8 +15,10 @@ steps:
     dotnet tool update paket
     dotnet tool update fake-cli
   displayName: 'Install prereq'
-- script: dotnet paket restoe
-  displayName: "Updating packages"
+
+- script: dotnet paket restore
+  displayName: "Restore"
+
 - script: |
     dotnet fake build --target test
   displayName: 'test'
