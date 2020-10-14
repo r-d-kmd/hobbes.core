@@ -16,6 +16,18 @@ group core
     nuget Deedle
     nuget FParsec
 
+group test
+    source https://api.nuget.org/v3/index.json
+    framework: auto-detect
+    storage: none
+    
+    nuget FsUnit
+    nuget FsUnit.xUnit
+    nuget xUnit
+    nuget Microsoft.NET.Test.SDK
+    nuget microsoft.testplatform.testhost
+    nuget xunit.runner.VisualStudio  
+
 group visualizer
     source https://api.nuget.org/v3/index.json
     framework: auto-detect
