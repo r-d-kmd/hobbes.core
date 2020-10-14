@@ -7,13 +7,6 @@ nuget FSharp.Core
 nuget Newtonsoft.Json
 nuget Thoth.Json.Net
 
-group workbench
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-    
-    nuget Argu
-
 group core
     source https://api.nuget.org/v3/index.json
     framework: auto-detect
@@ -22,41 +15,6 @@ group core
     nuget Accord.MachineLearning
     nuget Deedle
     nuget FParsec
-
-group collectors
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-
-    nuget RabbitMQ.Client
-
-group web
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-
-    nuget Saturn = 0.13.1
-    nuget Giraffe
-    nuget FSharp.Data
-    nuget Microsoft.Extensions.PlatformAbstractions
-
-group test
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-    
-    nuget FsUnit
-    nuget FsUnit.xUnit
-    nuget xUnit
-    nuget Microsoft.NET.Test.SDK
-    nuget microsoft.testplatform.testhost
-    nuget xunit.runner.VisualStudio  
-
-group tutorial
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-    nuget FSharp.Formatting
 
 group visualizer
     source https://api.nuget.org/v3/index.json
@@ -81,15 +39,6 @@ group visualizer
     nuget Deedle
     nuget Accord.MachineLearning
     nuget FSharp.Formatting
-
-group docker
-    source https://api.nuget.org/v3/index.json
-    framework: auto-detect
-    storage: none
-    
-    nuget hobbes.core
-    nuget hobbes.messaging 
-    nuget hobbes.web
 
 group visualizer.web
     source https://api.nuget.org/v3/index.json
