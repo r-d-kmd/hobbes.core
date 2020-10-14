@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
- <PropertyGroup>
+  <PropertyGroup>
     <RootNamespace>Hobbes</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="yaml-parser"><HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath></Reference>
+    <Reference Include="yaml-parser">
+      <HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="backend/AST.fs" />
@@ -22,5 +24,5 @@
     <Compile Include="frontend.odata/Compile.fs" />
     <Compile Include="DSL.fs" />
   </ItemGroup>
-  <Import Project="../.fake/build.fsx/.paket/Paket.Restore.targets" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

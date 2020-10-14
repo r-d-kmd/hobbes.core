@@ -6,7 +6,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="yaml-parser"><HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath></Reference>
+    <Reference Include="yaml-parser">
+      <HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../src/hobbes.core.fsproj" />
@@ -16,5 +18,5 @@
     <Compile Include="FSharp.Frontend.fs" />
     <Compile Include="Parser.fs" />
   </ItemGroup>
-  <Import Project="../.fake/build.fsx/.paket/Paket.Restore.targets" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

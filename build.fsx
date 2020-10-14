@@ -89,7 +89,8 @@ create Targets.Build (fun _ ->
     let projectFile = srcPath + "hobbes.core.fsproj"
     package buildConfiguration "./package" projectFile
 )
-
+let paket workDir args = 
+    run "dotnet" workDir ("paket " + args) 
 create Targets.Package (fun _ ->
     let packages = Directory.EnumerateFiles(srcPath, "*.nupkg")
     let dateTime = System.DateTime.UtcNow
@@ -97,7 +98,7 @@ create Targets.Package (fun _ ->
     let packageVersion = Environment.environVarOrDefault "APPVEYOR_BUILD_VERSION" version
     File.deleteAll packages
     sprintf "pack --version %s ." packageVersion
-    |> run "paket" srcPath 
+    |> paket srcPath 
 )
 
 create Targets.Push (fun _ ->
@@ -105,7 +106,7 @@ create Targets.Push (fun _ ->
         Directory.EnumerateFiles(srcPath, "*.nupkg")
         |> Seq.exactlyOne
     sprintf "push --url %s --api-key na %s" nugetFeedUrl nupkgFilePath
-    |> run "paket" "./"
+    |> paket "./"
 )
 create Targets.Test (fun _ ->
     DotNet.test id "tests/hobbes.core.tests.fsproj"
