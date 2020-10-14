@@ -1,5 +1,5 @@
 version 5.249.2
-source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+source https://api.nuget.org/v3/index.json
 framework: auto-detect
 storage: none
 
@@ -8,14 +8,14 @@ nuget Newtonsoft.Json
 nuget Thoth.Json.Net
 
 group workbench
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
     
     nuget Argu
 
 group core
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
 
@@ -24,14 +24,14 @@ group core
     nuget FParsec
 
 group collectors
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
 
     nuget RabbitMQ.Client
 
 group web
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2 
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
 
@@ -41,7 +41,7 @@ group web
     nuget Microsoft.Extensions.PlatformAbstractions
 
 group test
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
     
@@ -53,13 +53,13 @@ group test
     nuget xunit.runner.VisualStudio  
 
 group tutorial
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
     nuget FSharp.Formatting
 
 group visualizer
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
 
@@ -83,7 +83,7 @@ group visualizer
     nuget FSharp.Formatting
 
 group docker
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
     
@@ -92,7 +92,7 @@ group docker
     nuget hobbes.web
 
 group visualizer.web
-    source https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2
+    source https://api.nuget.org/v3/index.json
     framework: auto-detect
     storage: none
 
