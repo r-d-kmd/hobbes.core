@@ -13,7 +13,7 @@ steps:
 - script: |
     dotnet tool update -g paket
     dotnet new tool-manifest
-    dotnet tool update -g fake-cli
+    dotnet tool update fake-cli
   displayName: 'Install prereq'
 
 - script: |
