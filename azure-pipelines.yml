@@ -11,9 +11,7 @@ pool:
 
 steps:
 - script: |
-    dotnet new tool-manifest
-    dotnet tool update paket
-    dotnet tool update fake-cli
+    dotnet tool restore
   displayName: 'Install prereq'
 
 - script: dotnet paket restore
