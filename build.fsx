@@ -95,8 +95,12 @@ let paket workDir args =
 create Targets.Package (fun _ ->
     let packages = Directory.EnumerateFiles(srcPath, "*.nupkg")
     let dateTime = System.DateTime.UtcNow
-    let version = sprintf "1.0.%i.%i.%i-default" dateTime.Year dateTime.DayOfYear ((int) dateTime.TimeOfDay.TotalSeconds)
-    let packageVersion = Environment.environVarOrDefault "APPVEYOR_BUILD_VERSION" version
+    let version = sprintf "1.1.%i.%i.%i-default" dateTime.Year dateTime.DayOfYear ((int) dateTime.TimeOfDay.TotalSeconds)
+    let packageVersion = 
+        match Environment.environVarOrNone "BUILD_VERSION" with
+        None -> version
+        | Some bv ->
+            sprintf "1.1.%s" bv
     File.deleteAll packages
     sprintf "pack --version %s ." packageVersion
     |> paket srcPath 
@@ -106,7 +110,7 @@ create Targets.Push (fun _ ->
     let nupkgFilePath = 
         Directory.EnumerateFiles(srcPath, "*.nupkg")
         |> Seq.exactlyOne
-        
+
     let key = 
         match Environment.environVarOrNone "KEY" with
         None -> failwith "No key found"
