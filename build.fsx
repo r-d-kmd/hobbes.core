@@ -106,7 +106,13 @@ create Targets.Push (fun _ ->
     let nupkgFilePath = 
         Directory.EnumerateFiles(srcPath, "*.nupkg")
         |> Seq.exactlyOne
-    sprintf "push --api-key $KEY %s" nupkgFilePath
+        
+    let key = 
+        match Environment.environVarOrNone "KEY" with
+        None -> failwith "No key found"
+        | Some k -> k
+
+    sprintf "push --api-key %s %s" key nupkgFilePath
     |> paket "./"
 )
 
