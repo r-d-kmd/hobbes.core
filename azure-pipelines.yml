@@ -23,6 +23,8 @@ steps:
 
 - script: |
     dotnet fake build --target package
+  env:
+     BUILD_VERSION : $(Build.BuildNumber)
   displayName: 'package'
   
 - script: |
