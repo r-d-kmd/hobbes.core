@@ -25,10 +25,7 @@ steps:
 
 - script: |
     dotnet fake build --target package
-  displayName: 'package'
-
-- script: |
     dotnet paket push --api-key $env:nugetkey $(ls *.nupkg)
   env:
     nugetkey: $(nugetkey)
-  displayName: 'push'
+  displayName: 'package & push'
