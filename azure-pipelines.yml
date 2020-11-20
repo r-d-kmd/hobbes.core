@@ -26,7 +26,7 @@ steps:
   displayName: 'package'
   
 - script: |
-    dotnet paket push --api-key $API_KEY $(ls src/*.nupkg)
+    dotnet fake build --target push
   env:
-    API_KEY: $(API_KEY)
+    KEY: $(API_KEY)
   displayName: 'push'
