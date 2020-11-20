@@ -91,6 +91,7 @@ create Targets.Build (fun _ ->
 )
 let paket workDir args = 
     run "dotnet" workDir ("paket " + args) 
+    
 create Targets.Package (fun _ ->
     let packages = Directory.EnumerateFiles(srcPath, "*.nupkg")
     let dateTime = System.DateTime.UtcNow
@@ -105,7 +106,7 @@ create Targets.Push (fun _ ->
     let nupkgFilePath = 
         Directory.EnumerateFiles(srcPath, "*.nupkg")
         |> Seq.exactlyOne
-    sprintf "push --url %s --api-key $KEY %s" nugetFeedUrl nupkgFilePath
+    sprintf "push --api-key $KEY %s" nupkgFilePath
     |> paket "./"
 )
 
