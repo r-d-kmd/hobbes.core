@@ -28,7 +28,7 @@ steps:
   displayName: 'package'
   
 - script: |
-    dotnet paket push --api-key $env:nugetkey $(ls src/*.nupkg)
+    dotnet paket push --api-key $nugetkey $(ls src/*.nupkg)
   env:
     nugetkey: $(nugetkey)
   displayName: 'push'
