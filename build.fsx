@@ -26,14 +26,18 @@ type Targets =
    | Package
    | Push
    | Test
+   | Release
+   | InstallDependencies
    | Generic of string
 
 let targetName = 
     function
         Targets.Build -> "build"
+        | Targets.InstallDependencies -> "installdependencies"
         | Targets.Package -> "package"
         | Targets.Push -> "push"
         | Targets.Test -> "test"
+        | Targets.Release -> "release"
         | Targets.Generic s -> s
 
 open Fake.Core.TargetOperators
@@ -42,6 +46,9 @@ let inline (==>) (lhs : Targets) (rhs : Targets) =
 
 let inline (?=>) (lhs : Targets) (rhs : Targets) =
     Targets.Generic((targetName lhs) ?=> (targetName rhs))
+
+let inline (<===) (lhs : Targets) (rhs : Targets) =
+    rhs ==> lhs //deliberately changing order of arguments
 
 let create target = 
     target
@@ -64,7 +71,7 @@ let run command workingDir args =
     |> Proc.run
     |> ignore
 
-let nugetFeedUrl = "https://kmddk.pkgs.visualstudio.com/45c29cd0-03bf-4f63-ac71-3c366095dda9/_packaging/KMD_Package_Feed/nuget/v2"
+let nugetFeedUrl = Environment.environVarOrDefault "FEED_URL" "https://api.nuget.org/v3/index.json"
 
 let buildConfiguration = 
         DotNet.BuildConfiguration.Release
@@ -84,18 +91,34 @@ let package conf outputDir projectFile =
                         }
                    ) projectFile
 let srcPath = "src/"
+let testsPath = "tests/"
 
-create Targets.Build (fun _ ->    
-    let projectFile = srcPath + "hobbes.core.fsproj"
-    package buildConfiguration "./package" projectFile
-)
+let getProjectFile folder = 
+    if Directory.Exists folder then
+        Directory.EnumerateFiles(folder,"*.?sproj")
+        |> Seq.tryExactlyOne
+    else
+        None
+
 let paket workDir args = 
     run "dotnet" workDir ("paket " + args) 
+
+create Targets.Release ignore
+create Targets.InstallDependencies (fun _ ->
+    paket srcPath "install"
+)
+
+create Targets.Build (fun _ ->    
+    let projectFile = 
+        srcPath
+        |> getProjectFile
+
+    package buildConfiguration "./package" projectFile.Value
+)
     
 create Targets.Package (fun _ ->
     let packages = Directory.EnumerateFiles(srcPath, "*.nupkg")
-    let dateTime = System.DateTime.UtcNow
-    let version = sprintf "1.1.%i.%i.%i-default" dateTime.Year dateTime.DayOfYear ((int) dateTime.TimeOfDay.TotalSeconds)
+    let version = "0.1.local"
     let packageVersion = 
         match Environment.environVarOrNone "BUILD_VERSION" with
         None -> version
@@ -113,15 +136,18 @@ create Targets.Push (fun _ ->
 
     let key = 
         match Environment.environVarOrNone "KEY" with
-        None -> failwith "No key found"
+        None -> failwith "No nuget feed key found (set env var KEY)"
         | Some k -> k
 
-    sprintf "push --api-key %s %s" key nupkgFilePath
+    sprintf "push --url %s --api-key %s %s" nugetFeedUrl key nupkgFilePath
     |> paket "./"
 )
 
 create Targets.Test (fun _ ->
-    DotNet.test id "tests/hobbes.core.tests.fsproj"
+    match testsPath |> getProjectFile with
+    Some tests -> 
+        tests |> DotNet.test id
+    | None -> printfn "Skipping tests because no tests was found. Create a project in the folder 'tests/' wo have tests run"
 )
 
 Targets.Build
@@ -131,7 +157,12 @@ Targets.Build
     ?=> Targets.Test
 
 Targets.Package
-    ?=>Targets.Push
+    ?=> Targets.Push
+
+Targets.Release
+    <=== Targets.InstallDependencies
+    <=== Targets.Package
+    <=== Targets.Test
 
 Targets.Package
 |> runOrDefaultWithArguments 

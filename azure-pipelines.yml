@@ -14,21 +14,8 @@ steps:
     dotnet tool restore
   displayName: 'Install prereq'
 
-- script: dotnet paket restore
-  displayName: "Restore"
-
-- script: |
-    dotnet fake build --target test
-  displayName: 'test'
-
-- script: |
-    dotnet fake build --target package
+- script: dotnet fake build --target release 
   env:
      BUILD_VERSION : $(Build.BuildNumber)
-  displayName: 'package'
-  
-- script: |
-    dotnet fake build --target push
-  env:
     KEY: $(API_KEY)
-  displayName: 'push'
+  displayName: 'release'
