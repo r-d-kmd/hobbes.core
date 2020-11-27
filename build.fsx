@@ -155,14 +155,16 @@ Targets.Build
 
 Targets.Build
     ?=> Targets.Test
-
-Targets.Package
+    ?=> Targets.Package
     ?=> Targets.Push
 
+Targets.InstallDependencies
+    ?=> Targets.Build
+
 Targets.Release
-    <=== Targets.InstallDependencies
+    <=== Targets.Push
     <=== Targets.Package
     <=== Targets.Test
-
+    <=== Targets.InstallDependencies
 Targets.Package
 |> runOrDefaultWithArguments 
