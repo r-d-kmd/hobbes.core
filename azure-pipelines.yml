@@ -9,13 +9,38 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  BUILD_VERSION: '$(Build.BuildId)'
+  
 steps:
-- script: |
-    dotnet tool restore
-  displayName: 'Install prereq'
+- task: UseDotNet@2
+  displayName: "Use net5"
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.x'
+- task: DotNetCoreCLI@2
+  displayName: "Resoter tools"
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'restore'    
 
-- script: dotnet fake build --target release 
-  env:
-     BUILD_VERSION : $(Build.BuildNumber)
-     KEY: $(API_KEY)
-  displayName: 'release'
+- script: dotnet paket update
+  displayName: 'install packages'
+
+- task: DotNetCoreCLI@2
+  displayName: "Pack the package"
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.fsproj'
+    versioningScheme: 'off'
+
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
+- task: DotNetCoreCLI@2
+  displayName: "Push the package"
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '45c29cd0-03bf-4f63-ac71-3c366095dda9/2447d53d-0348-4176-b5f4-4c55ed2d94c3'
