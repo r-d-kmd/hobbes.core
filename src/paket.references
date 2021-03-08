@@ -1,6 +1,4 @@
 Thoth.Json.Net
-
-group core
-    Accord.MachineLearning
-    Deedle
-    FParsec
+Accord.MachineLearning
+Deedle
+FParsec
