@@ -18,8 +18,9 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '5.0.x'
+
 - task: DotNetCoreCLI@2
-  displayName: "Resoter tools"
+  displayName: "Restore tools"
   inputs:
     command: 'custom'
     custom: 'tool'
@@ -37,6 +38,7 @@ steps:
 
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
+
 - task: DotNetCoreCLI@2
   displayName: "Push the package"
   inputs:
