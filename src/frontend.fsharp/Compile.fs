@@ -49,53 +49,55 @@ module Compile =
                          Blocks = []
                      }
                 
+    let compileBlocks blocks = 
+        blocks
+        |> List.fold(fun chunks block ->
+            let chunk = chunks |> List.head
+            
+            match block with
+            AST.Comment s -> 
+                {
+                    chunk with 
+                        Blocks = (Comment s)::chunk.Blocks
+                }::chunks.Tail
+            | AST.Source(pn,m) -> 
+                let source' = 
+                    {
+                        ProviderName = pn
+                        Properties = m
+                    }
+                if chunk.Source = Source.Empty then
+                    ({
+                        chunk with 
+                            Source = source'
+                    })::chunks.Tail
+                else
+                    {
+                        Source = source'
+                        Blocks = []
+                    }::chunks
+            | AST.Statements stmts ->
+                let trans = 
+                    stmts
+                    |> parsedStatements
+                    
+                let blocks = 
+                    match chunk.Blocks with
+                    (Transformation f)::tail ->
+                      (f >> trans |> Transformation)::tail
+                    | blocks -> (Transformation trans)::blocks
+                {
+                  chunk with 
+                      Blocks = blocks
+                }::chunks.Tail
+        ) [CompiledChunk.Empty]
+        |> List.map(fun c ->
+            { c with Blocks = c.Blocks |> List.rev}
+        )
 
     let compile (input : string) =
         let errors, blocks = BlockParser.parse input
         if errors|> List.isEmpty |> not then
             failwith (System.String.Join(",",errors))
         else
-            blocks
-            |> List.fold(fun chunks block ->
-                let chunk = chunks |> List.head
-                
-                match block with
-                AST.Comment s -> 
-                    {
-                        chunk with 
-                            Blocks = (Comment s)::chunk.Blocks
-                    }::chunks.Tail
-                | AST.Source(pn,m) -> 
-                    let source' = 
-                        {
-                            ProviderName = pn
-                            Properties = m
-                        }
-                    if chunk.Source = Source.Empty then
-                        ({
-                            chunk with 
-                                Source = source'
-                        })::chunks.Tail
-                    else
-                        {
-                            Source = source'
-                            Blocks = []
-                        }::chunks
-                | AST.Statements stmts ->
-                    let trans = 
-                        stmts
-                        |> parsedStatements
-                        
-                    let blocks = 
-                        match chunk.Blocks with
-                        (Transformation f)::tail ->
-                          (f >> trans |> Transformation)::tail
-                        | blocks -> (Transformation trans)::blocks
-                    {
-                      chunk with 
-                          Blocks = blocks
-                    }::chunks.Tail
-            ) [CompiledChunk.Empty]
-            |> List.map(fun c ->
-                { c with Blocks = c.Blocks |> List.rev}
-            )
+            compileBlocks blocks

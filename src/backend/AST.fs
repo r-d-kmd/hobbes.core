@@ -96,13 +96,13 @@ module AST =
         CreateColumn of ComputationExpression * string
         | RenameColumn of string * string
         | Pivot of rowkey: ComputationExpression * columnkey: ComputationExpression * value : ComputationExpression * Reduction
-
+        
     type Statement = 
         Reduction of Reduction
         | FilterAndSorting of FilterAndSorting
         | Cluster of Cluster
         | Column of ColumnStatements
-
+        
     type Value = 
         | Mapping of Map<Value, Value> 
         | Sequence of Value list
