@@ -26,7 +26,7 @@
     <Compile Include="frontend.odata/Compile.fs" />
     <Compile Include="DSL.fs" />
   </ItemGroup>
-  <Import Condition="Exists('../../../.paket/Paket.targets')" Project="../../../.paket/Paket.targets" />
-  <Import Condition="(! (Exists('../../../.paket/Paket.targets') OR Exists('../../../.paket\Paket.Restore.targets'))) AND Exists('/.paket/Paket.Restore.targets')" Project="/.paket/Paket.Restore.targets" />
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Condition="Exists('.paket/Paket.targets')" Project=".paket/Paket.targets" />
+  <Import Condition="(! Exists('../../../.paket/Paket.targets')) AND Exists('../../../.paket/Paket.Restore.targets') " Project="../../../.paket/Paket.Restore.targets" />
+  <Import Condition="(! (Exists('../../../.paket/Paket.targets') OR Exists('../../../.paket/Paket.Restore.targets'))) AND Exists('/.paket/Paket.Restore.targets')" Project="/.paket/Paket.Restore.targets" />
 </Project>

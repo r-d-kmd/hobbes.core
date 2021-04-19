@@ -3,7 +3,6 @@ source https://api.nuget.org/v3/index.json
 framework: auto-detect
 storage: none
 
-nuget FSharp.Core
 nuget Thoth.Json.Net
 nuget Accord.MachineLearning
 nuget Deedle
@@ -20,15 +19,3 @@ group test
     nuget Microsoft.NET.Test.SDK
     nuget microsoft.testplatform.testhost
     nuget xunit.runner.VisualStudio  
-
-group Build
-    source https://api.nuget.org/v3/index.json
-    framework: netstandard2.0
-    storage: none
-
-    nuget FSharp.Core
-    nuget Fake.Core.ReleaseNotes
-    nuget Fake.Core.Target
-    nuget Fake.DotNet.Cli
-    nuget Fake.IO.FileSystem
-    nuget Farmer

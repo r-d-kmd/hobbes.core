@@ -999,33 +999,30 @@ module DataStructures =
                         |> Array.ofSeq
                     ) |> Array.ofSeq
                     |> Array.transpose
-
-                let rowCount = (this :> IDataMatrix).RowCount
-                     
+   
                 let result = 
-                    Encode.object [
-                          "columnNames", Encode.array (columnNames |> Array.map Encode.string)
-                          "values", Encode.array (values |> Array.map(fun row ->
-                                    Encode.array (row |> Array.map(fun cell ->
-                                        match cell with
-                                        null -> Encode.nil
-                                        | :? System.DateTime as d -> 
-                                            d.ToString() |> Encode.string
-                                        | :? System.DateTimeOffset as d -> 
-                                            d.ToLocalTime().DateTime.ToString() |> Encode.string
-                                        | :? int as i  -> i |> Encode.int
-                                        | :? float as f -> f |> Encode.float
-                                        | :? decimal as d -> d |> Encode.decimal
-                                        | :? string as s  -> s |> Encode.string
-                                        | :? bool as b -> b |> Encode.bool
-                                        | _ -> failwithf "Don't know how to encode %A" cell
-                                    )) 
-                                ))
-                          "rowCount", Encode.int rowCount
-                    ] |> Encode.toString 0
-
-                assert(rowCount = values.Length)
-
+                    Encode.array(
+                        values
+                        |> Array.map(
+                            Array.mapi(fun i (cell : obj) ->
+                                let encodedValue = 
+                                    match cell with
+                                    null -> Encode.nil
+                                    | :? System.DateTime as d -> 
+                                        d.ToString() |> Encode.string
+                                    | :? System.DateTimeOffset as d -> 
+                                        d.ToLocalTime().DateTime.ToString() |> Encode.string
+                                    | :? int as i  -> i |> Encode.int
+                                    | :? float as f -> f |> Encode.float
+                                    | :? decimal as d -> d |> Encode.decimal
+                                    | :? string as s  -> s |> Encode.string
+                                    | :? bool as b -> b |> Encode.bool
+                                    | _ -> failwithf "Don't know how to encode %A" cell
+                                columnNames.[i],encodedValue
+                            ) >> List.ofArray 
+                            >> Encode.object
+                        )
+                    ) |> Encode.toString 0
                 result
                 
 
