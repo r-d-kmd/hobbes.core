@@ -10,6 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+  MAJOR: 2
+  MINOR: 1
   BUILD_VERSION: '$(Build.BuildId)'
   
 steps:
