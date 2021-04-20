@@ -5,13 +5,16 @@
     <RootNamespace>Hobbes</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="yaml-parser">
-      <HintPath>../.lib/yaml-parser/yaml-parser.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="yaml-parser/yaml-parser/prelude.fs" />
+    <Compile Include="yaml-parser/yaml-parser/types.fs" />
+    <Compile Include="yaml-parser/yaml-parser/primitives.fs" />
+    <Compile Include="yaml-parser/yaml-parser/flow-styles.fs" />
+    <Compile Include="yaml-parser/yaml-parser/block-styles.fs" />
+    <Content Include="yaml-parser/yaml-parser/script.fsx" />
+    <Compile Include="yaml-parser/yaml-parser/parser.fs" />
     <Compile Include="backend/AST.fs" />
     <Compile Include="backend/Primitives.fs" />
     <Compile Include="backend/Keywords.fs" />
@@ -26,6 +29,6 @@
     <Compile Include="DSL.fs" />
   </ItemGroup>
   <Import Condition="Exists('.paket/Paket.targets')" Project=".paket/Paket.targets" />
-  <Import Condition="(! Exists('../../../.paket/Paket.targets')) AND Exists('../../../.paket/Paket.Restore.targets') " Project="../../../.paket/Paket.Restore.targets" />
   <Import Condition="(! (Exists('../../../.paket/Paket.targets') OR Exists('../../../.paket/Paket.Restore.targets'))) AND Exists('/.paket/Paket.Restore.targets')" Project="/.paket/Paket.Restore.targets" />
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

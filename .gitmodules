@@ -1,3 +1,6 @@
 [submodule "build"]
 	path = build
 	url = https://github.com/r-d-kmd/Duzer.build.git
+[submodule "src/yaml-parser"]
+	path = src/yaml-parser
+	url = https://github.com/runefs/yaml-parser.git
