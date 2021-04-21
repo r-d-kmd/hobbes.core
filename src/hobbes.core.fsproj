@@ -8,13 +8,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="yaml-parser/yaml-parser/prelude.fs" />
-    <Compile Include="yaml-parser/yaml-parser/types.fs" />
-    <Compile Include="yaml-parser/yaml-parser/primitives.fs" />
-    <Compile Include="yaml-parser/yaml-parser/flow-styles.fs" />
-    <Compile Include="yaml-parser/yaml-parser/block-styles.fs" />
-    <Content Include="yaml-parser/yaml-parser/script.fsx" />
-    <Compile Include="yaml-parser/yaml-parser/parser.fs" />
+    <ProjectReference Include="yaml-parser\yaml-parser\yaml-parser.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="backend/AST.fs" />
     <Compile Include="backend/Primitives.fs" />
     <Compile Include="backend/Keywords.fs" />
