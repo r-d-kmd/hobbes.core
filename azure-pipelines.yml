@@ -37,7 +37,7 @@ steps:
   displayName: "Pack the package"
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.fsproj'
+    packagesToPack: '**/hobbes.core.fsproj'
     versioningScheme: 'off'
 
 - task: NuGetAuthenticate@0
