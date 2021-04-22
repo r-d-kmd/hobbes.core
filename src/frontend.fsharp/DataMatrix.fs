@@ -191,7 +191,7 @@ module DataStructures =
         abstract Transform : AST.Statement -> IDataMatrix
         abstract Combine : IDataMatrix -> IDataMatrix
         abstract Join : string -> IDataMatrix -> IDataMatrix
-        abstract ToJson : unit -> string
+        abstract ToJson : unit -> JsonValue
         abstract RowCount : int with get
     
     type private Comp = System.IComparable
@@ -1000,30 +1000,29 @@ module DataStructures =
                     ) |> Array.ofSeq
                     |> Array.transpose
    
-                let result = 
-                    Encode.array(
-                        values
-                        |> Array.map(
-                            Array.mapi(fun i (cell : obj) ->
-                                let encodedValue = 
-                                    match cell with
-                                    null -> Encode.nil
-                                    | :? System.DateTime as d -> 
-                                        d.ToString() |> Encode.string
-                                    | :? System.DateTimeOffset as d -> 
-                                        d.ToLocalTime().DateTime.ToString() |> Encode.string
-                                    | :? int as i  -> i |> Encode.int
-                                    | :? float as f -> f |> Encode.float
-                                    | :? decimal as d -> d |> Encode.decimal
-                                    | :? string as s  -> s |> Encode.string
-                                    | :? bool as b -> b |> Encode.bool
-                                    | _ -> failwithf "Don't know how to encode %A" cell
-                                columnNames.[i],encodedValue
-                            ) >> List.ofArray 
-                            >> Encode.object
-                        )
-                    ) |> Encode.toString 0
-                result
+                
+                Encode.array(
+                    values
+                    |> Array.map(
+                        Array.mapi(fun i (cell : obj) ->
+                            let encodedValue = 
+                                match cell with
+                                null -> Encode.nil
+                                | :? System.DateTime as d -> 
+                                    d.ToString() |> Encode.string
+                                | :? System.DateTimeOffset as d -> 
+                                    d.ToLocalTime().DateTime.ToString() |> Encode.string
+                                | :? int as i  -> i |> Encode.int
+                                | :? float as f -> f |> Encode.float
+                                | :? decimal as d -> d |> Encode.decimal
+                                | :? string as s  -> s |> Encode.string
+                                | :? bool as b -> b |> Encode.bool
+                                | _ -> failwithf "Don't know how to encode %A" cell
+                            columnNames.[i],encodedValue
+                        ) >> List.ofArray 
+                        >> Encode.object
+                    )
+                ) 
                 
 
     [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
